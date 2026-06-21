@@ -1,0 +1,11 @@
+{
+  "name": "Forex News Notifier",
+  "short_name": "FX Notifier",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1a1a",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
