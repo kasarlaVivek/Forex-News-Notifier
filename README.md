@@ -9,6 +9,8 @@ in-app feed) when something relevant to your watchlist happens.
 See [`PLAN.md`](./PLAN.md) for the full design rationale and phased roadmap.
 This README covers how it's built and how to run it.
 
+**Live deployment:** https://forex-news-notifier-production.up.railway.app
+
 ## Current status: Phase 4 complete
 
 The skeleton and the **delivery pipe** (dedup → tag → store → SSE → push) are
