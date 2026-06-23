@@ -25,6 +25,17 @@ def list_events(limit: int = 50, session: Session = Depends(get_session)):
         select(Event).where(Event.scheduled_at >= since).order_by(Event.scheduled_at.asc())
     ).all()
 
+    # The reverse can also happen: a single ForexFactory poll inserts dozens
+    # of calendar rows within the same second, which can fill every "recent"
+    # slot and crowd breaking news out of the response entirely. Pull back
+    # the last day of unscheduled news explicitly too, mirroring the fix
+    # above (and the frontend's own 24h "breaking news" window).
+    breaking = session.exec(
+        select(Event)
+        .where(Event.scheduled_at.is_(None), Event.created_at >= since)
+        .order_by(Event.created_at.desc())
+    ).all()
+
     seen = {e.id for e in recent}
-    events = recent + [e for e in scheduled if e.id not in seen]
+    events = recent + [e for e in scheduled + breaking if e.id not in seen]
     return [{**event.model_dump(), "bias": event_bias(event)} for event in events]
