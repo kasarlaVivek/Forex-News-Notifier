@@ -1,6 +1,9 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import CORS_ORIGINS
 from app.db import init_db
@@ -36,3 +39,10 @@ app.include_router(test_event.router)
 @app.get("/api/health")
 def health():
     return {"status": "ok"}
+
+
+# Built React app (frontend/dist), copied here by the Dockerfile. Mounted last
+# and with html=True so it acts as an SPA fallback without shadowing /api/*.
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+if STATIC_DIR.exists():
+    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")

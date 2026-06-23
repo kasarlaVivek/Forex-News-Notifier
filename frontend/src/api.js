@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+// `??` (not `||`) so an explicit empty string (same-origin prod build) sticks
+// instead of falling back to the dev default.
+const API_BASE = import.meta.env.VITE_API_BASE ?? "http://127.0.0.1:8000";
 
 async function request(path, options = {}) {
   const res = await fetch(`${API_BASE}${path}`, {

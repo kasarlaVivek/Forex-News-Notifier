@@ -259,7 +259,6 @@ scheduler's first poll can fire before the frontend is ever opened.
 cd frontend
 npm install
 cp .env.example .env
-# Paste the same VAPID public key (from step 1) into VITE_VAPID_PUBLIC_KEY
 
 npm run dev
 ```
